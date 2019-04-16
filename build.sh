@@ -28,4 +28,16 @@ docker build -f ./docker/Dockerfile.arm64.imagick -t 80x86/lychee:arm64-imagick-
 docker push 80x86/lychee:arm64-imagick-latest
 echo "end build imagick version ..."
 
+echo "begin build full version ..."
+docker image rm -f 80x86/lychee:AMD64-full-latest
+docker image prune -f
+docker build -f ./docker/Dockerfile.full -t 80x86/lychee:AMD64-full-latest .
+docker push 80x86/lychee:AMD64-full-latest
+
+docker image rm -f 80x86/lychee:arm64-full-latest
+docker image prune -f
+docker build -f ./docker/Dockerfile.arm64.full -t 80x86/lychee:arm64-full-latest .
+docker push 80x86/lychee:arm64-full-latest
+echo "end build full version ..."
+
 ./multi.sh
