@@ -100,7 +100,7 @@ RUN sed -i "s@uploads/import/@public/uploads/import/@g" /app/Lychee-Laravel/publ
 COPY docker/config/ /etc/
 
 # Configure s6 service
-COPY docker/svc /etc/services.d/
+COPY docker/services.d /etc/services.d/
 RUN chmod +x /etc/services.d/*/run
 
 # inject before run
