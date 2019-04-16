@@ -1,6 +1,6 @@
 docker
 !docker/config
-!docker/svc
+!docker/services.d
 !docker/app-init.sh
 !docker/inject.sh
 .dockerignore
