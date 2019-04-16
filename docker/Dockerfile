@@ -86,21 +86,18 @@ COPY --chown=1000:1000 . /app/Lychee-Laravel/
 
 RUN sed -i "s@uploads/import/@public/uploads/import/@g" /app/Lychee-Laravel/public/dist/main.js
 
-# Configure Nginx
-COPY docker/config/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY docker/config/nginx/default /etc/nginx/sites-enabled/default
+# Configure Nginx and PHP-FPM
+COPY docker/config/ /etc/
 
-# Configure PHP-FPM
-COPY docker/config/php/php.ini /etc/php7/php.ini
-COPY docker/config/php/www.conf /etc/php7/php-fpm.d/www.conf
+# Configure s6 service
+COPY docker/svc /etc/services.d/
+RUN chmod +x /etc/services.d/*/run
 
-# Configure runit
+# inject before run
 # ref to https://github.com/dockage/runit-scripts/tree/master/alpine/etc/sv
 COPY docker/app-init.sh docker/inject.sh /
 RUN chmod +x /app-init.sh \
         && chmod +x /inject.sh
-COPY docker/svc /etc/services.d/
-RUN chmod +x /etc/services.d/*/run
 
 # Setting the workdir
 WORKDIR /app/Lychee-Laravel
