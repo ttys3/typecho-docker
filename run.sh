@@ -1,1 +1,1 @@
-sudo docker run -it --rm 80x86/lychee:AMD64-latest
+docker run -it --rm 80x86/lychee:AMD64-latest
