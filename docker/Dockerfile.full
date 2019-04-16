@@ -112,3 +112,5 @@ HEALTHCHECK --interval=6s --timeout=3s \
   CMD curl -Ifs http://localhost/ > /dev/null || exit 1
 
 CMD ["/app-init.sh"]
+
+# vim: set ft=dockerfile ts=4 sw=4 et:
