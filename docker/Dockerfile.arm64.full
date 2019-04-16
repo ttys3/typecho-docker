@@ -1,0 +1,121 @@
+#thanks https://github.com/LycheeOrg/Lychee-Laravel-Docker/blob/master/Dockerfile
+#thanks https://github.com/dockage/alpine-runit/blob/master/Dockerfile
+#thanks https://github.com/faisyl/alpine-runit
+#thanks https://github.com/petronetto/php-nginx-alpine
+#install https://github.com/LycheeOrg/Lychee-Laravel/wiki/Install
+#man https://www.cyberciti.biz/faq/10-alpine-linux-apk-command-examples/
+
+#FROM 80x86/base-alpine:latest
+FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
+FROM alpine:edge as qemu_extract
+COPY --from=qemu /usr/bin qemu-aarch64-static.tar.gz
+RUN tar -xzvf qemu-aarch64-static.tar.gz && rm -f qemu-aarch64-static.tar.gz
+ 
+FROM 80x86/base-alpine:arm64
+COPY --from=qemu_extract qemu-aarch64-static /usr/bin
+
+LABEL maintainer='HuangYeWuDeng <***@ttys0.in>' \
+        org.label-schema.name="docker-lychee-alpine-s6" \
+        org.label-schema.vendor="HuangYeWuDeng" \
+        org.label-schema.description="Docker image uses s6 as a process supervision run Lychee under nginx and php-fpm on Alpine Linux" \
+        org.label-schema.vcs-url="https://bitbucket.org/8ox86/docker-lychee-alpine-s6" \
+        org.label-schema.version="1.1" \
+        org.label-schema.license="MIT"
+
+# Environment variables
+ENV PUID='1000' \
+        PGID='1000' \
+        HTTPD_USER='www' \
+        PHP_TZ=Asia/Shanghai \
+        PHP_MAX_EXECUTION_TIME=600 \
+        DB_CONNECTION=sqlite \
+        DB_DATABASE=/conf/lychee.db \
+        APP_DEBUG=false
+    
+# Install packages
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+        && apk --update add --no-cache \
+        tzdata \
+        nginx \
+        ffmpeg \
+        curl \
+#       ncdu \
+        freetype \
+        libpng \
+        libjpeg-turbo \
+        php7 \
+        php7-fpm \
+        php7-mbstring \
+        php7-mcrypt \
+        php7-opcache \
+        php7-pdo \
+        php7-pdo_mysql \
+        php7-pdo_sqlite \
+        php7-exif \
+        php7-tokenizer \
+        php7-fileinfo \
+        php7-xml \
+        php7-phar \
+        php7-openssl \
+        php7-json \
+        php7-curl \
+        php7-ctype \
+        php7-session \
+        php7-gd \
+        php7-imagick \
+        php7-zip \
+        php7-zlib \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /usr/share/gtk-doc
+
+
+# Configuring timezones
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+        && echo "Asia/Shanghai" >  /etc/timezone \
+        && echo "CST-8" >  /etc/TZ \
+        && apk del --no-cache tzdata \
+        && rm -rf /var/cache/apk/*
+
+# Create application folder
+# RUN mkdir -p /app
+
+# Add User and Group
+#RUN addgroup -g "$PGID" -S "$USER" \
+#    && adduser -u "$PUID" -D -S -G "$USER" -h /app -g "$USER" "$USER"
+
+# create www user for php-fpm
+RUN addgroup -g 1000 -S $HTTPD_USER \
+    && adduser -u 1000 -D -S -G $HTTPD_USER -h /app -g $HTTPD_USER $HTTPD_USER \
+    && chown -R nginx:nginx /var/lib/nginx
+
+# copy app build result to image
+COPY --chown=1000:1000 Lychee-Laravel /app/Lychee-Laravel/
+
+# for debug COPY instruction
+# RUN ls -lhp /app/
+
+RUN sed -i "s@uploads/import/@public/uploads/import/@g" /app/Lychee-Laravel/public/dist/main.js
+
+# Configure Nginx and PHP-FPM
+COPY docker/config/ /etc/
+
+# Configure s6 service
+COPY docker/services.d /etc/services.d/
+RUN chmod +x /etc/services.d/*/run
+
+# inject before run
+# ref to https://github.com/dockage/runit-scripts/tree/master/alpine/etc/sv
+COPY docker/app-init.sh docker/inject.sh /
+RUN chmod +x /app-init.sh \
+        && chmod +x /inject.sh
+
+# Setting the workdir
+WORKDIR /app/Lychee-Laravel
+
+EXPOSE 80
+VOLUME /conf /uploads
+
+HEALTHCHECK --interval=6s --timeout=3s \
+  CMD curl -Ifs http://localhost/ > /dev/null || exit 1
+
+CMD ["/app-init.sh"]
