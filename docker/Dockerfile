@@ -82,7 +82,10 @@ RUN addgroup -g 1000 -S $HTTPD_USER \
     && chown -R nginx:nginx /var/lib/nginx
 
 # copy app build result to image
-COPY --chown=1000:1000 . /app/Lychee-Laravel/
+COPY --chown=1000:1000 Lychee-Laravel /app/Lychee-Laravel/
+
+# for debug COPY instruction
+# RUN ls -lhp /app/
 
 RUN sed -i "s@uploads/import/@public/uploads/import/@g" /app/Lychee-Laravel/public/dist/main.js
 
