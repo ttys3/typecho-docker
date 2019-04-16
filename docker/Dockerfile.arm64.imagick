@@ -11,7 +11,7 @@ FROM alpine:edge as qemu_extract
 COPY --from=qemu /usr/bin qemu-aarch64-static.tar.gz
 RUN tar -xzvf qemu-aarch64-static.tar.gz && rm -f qemu-aarch64-static.tar.gz
  
-FROM arm64v8/alpine:edge
+FROM 80x86/base-alpine:arm64
 COPY --from=qemu_extract qemu-aarch64-static /usr/bin
 
 LABEL maintainer='HuangYeWuDeng <***@ttys0.in>' \
