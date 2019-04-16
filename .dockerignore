@@ -1,0 +1,15 @@
+docker
+!docker/config
+!docker/svc
+!docker/app-init.sh
+!docker/inject.sh
+.dockerignore
+**/.git/
+**/node_modules/
+**/tests/
+**/Tests/
+**/doc/
+**/docs/
+*.md
+*.pdf
+!README.md
