@@ -27,3 +27,5 @@ docker image prune -f
 docker build -f ./docker/Dockerfile.arm64.imagick -t 80x86/lychee:arm64-imagick-latest .
 docker push 80x86/lychee:arm64-imagick-latest
 echo "end build imagick version ..."
+
+./multi.sh
