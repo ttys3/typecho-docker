@@ -32,14 +32,14 @@ echo "**** Copy the .env to /conf ****" && \
 echo "**** Inject .env values ****" && \
 	/inject.sh
 
-[ ! -e /tmp/first_run ] && \
+[ ! -e /etc/app-init-done ] && \
 	echo "**** Generate the key (to make sure that cookies cannot be decrypted etc) ****" && \
 	cd /app/Lychee-Laravel && \
 	./artisan key:generate && \
 	echo "**** Migrate the database ****" && \
 	cd /app/Lychee-Laravel && \
 	./artisan migrate && \
-	touch /tmp/first_run
+	touch /etc/app-init-done
 
 echo "**** Set Permissions ****" && \
 chown -R "$HTTPD_USER":"$HTTPD_USER" /conf
