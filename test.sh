@@ -2,9 +2,9 @@
 
 git checkout master
 
-docker image rm -f 80x86/lychee:AMD64-latest
+docker image rm -f 80x86/lychee:AMD64-full-latest
 docker image prune -f
-docker build -f ./docker/Dockerfile -t 80x86/lychee:AMD64-latest .
+docker build -f ./docker/Dockerfile -t 80x86/lychee:AMD64-full-latest .
 
 ./run.sh
 

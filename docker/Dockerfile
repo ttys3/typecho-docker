@@ -30,7 +30,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         && apk --update add --no-cache \
         tzdata \
         nginx \
-#        ffmpeg \
+        ffmpeg \
         curl \
 #       ncdu \
         freetype \
@@ -42,7 +42,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         php7-mcrypt \
         php7-opcache \
         php7-pdo \
- #       php7-pdo_mysql \
+        php7-pdo_mysql \
         php7-pdo_sqlite \
         php7-exif \
         php7-tokenizer \
@@ -55,7 +55,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         php7-ctype \
         php7-session \
         php7-gd \
- #       php7-imagick \
+        php7-imagick \
         php7-zip \
         php7-zlib \
     && rm -rf /var/cache/apk/* \
@@ -86,8 +86,6 @@ COPY --chown=1000:1000 Lychee-Laravel /app/Lychee-Laravel/
 
 # for debug COPY instruction
 # RUN ls -lhp /app/
-
-RUN sed -i "s@uploads/import/@public/uploads/import/@g" /app/Lychee-Laravel/public/dist/main.js
 
 # Configure Nginx and PHP-FPM
 COPY docker/config/ /etc/
