@@ -114,7 +114,7 @@ EXPOSE 80
 VOLUME /conf /uploads
 
 HEALTHCHECK --interval=6s --timeout=3s \
-  CMD curl -Ifs http://localhost/ > /dev/null || exit 1
+  CMD curl -INfs http://localhost/ > /dev/null || exit 1
 
 CMD ["/app-init.sh"]
 
