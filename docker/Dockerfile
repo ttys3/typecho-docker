@@ -23,6 +23,7 @@ ENV PUID='1000' \
         PHP_MAX_EXECUTION_TIME=600 \
         DB_CONNECTION=sqlite \
         DB_DATABASE=/conf/lychee.db \
+        DISABLE_IMAGICK=false \
         APP_DEBUG=false
     
 # Install packages

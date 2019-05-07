@@ -111,7 +111,6 @@ if [ "$PUSHER_APP_CLUSTER" != '' ]; then
 fi
 
 #for aarch64,forced to use gd
-ARCH=`uname -m`
-if [ "$ARCH" == 'aarch64' ]; then
-    sed -i "s|DISABLE_IMAGICK=.*|DISABLE_IMAGICK=true|i" /conf/.env
+if [ "$DISABLE_IMAGICK" != '' ]; then
+    sed -i "s|DISABLE_IMAGICK=.*|DISABLE_IMAGICK=${DISABLE_IMAGICK}|i" /conf/.env
 fi
