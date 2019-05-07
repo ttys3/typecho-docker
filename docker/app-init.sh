@@ -9,8 +9,12 @@ MEM_TOTAL_MB=`free -m | grep Mem | awk '{ print $2 }'`
 #procs=$(cat /proc/cpuinfo | grep processor | wc -l)
 sed -i -e "s/worker_processes 5/worker_processes $CPU_NUM/" /etc/nginx/nginx.conf
 
-#php-fpm config adjust acording to machine hardware
-if [ "$ARCH" == 'aarch64' ]; then
+if [ "$PHP_FPM_MAX_CHILDREN" != '' ] && [ "$PHP_FPM_MAX_CHILDREN" != '0' ]; then
+    sed -i "s|pm.max_children =.*|pm.max_children = ${PHP_FPM_MAX_CHILDREN}|i" /etc/php7/php-fpm.d/www.conf
+fi
+
+#for arm64 soc, limited max_children to CPU num
+if [ "$ARCH" == 'aarch64' ] && [ "$PHP_FPM_MAX_CHILDREN" == '0' ]; then
     sed -i "s|pm.max_children =.*|pm.max_children = ${CPU_NUM}|i" /etc/php7/php-fpm.d/www.conf
 fi
 
