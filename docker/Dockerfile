@@ -55,6 +55,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         php7-ctype \
         php7-session \
         php7-gd \
+        imagemagick \
         php7-imagick \
         php7-zip \
         php7-zlib \
