@@ -14,7 +14,7 @@ if [ "$PHP_FPM_MAX_CHILDREN" != '' ] && [ "$PHP_FPM_MAX_CHILDREN" != '0' ]; then
 fi
 
 #for arm64 soc, limited max_children to CPU num
-if [ "$ARCH" == 'aarch64' ] && [ "$PHP_FPM_MAX_CHILDREN" == '0' ]; then
+if [ "$ARCH" == 'aarch64' ] && [ "$PHP_FPM_MAX_CHILDREN" == '' ]; then
     sed -i "s|pm.max_children =.*|pm.max_children = ${CPU_NUM}|i" /etc/php7/php-fpm.d/www.conf
 fi
 
