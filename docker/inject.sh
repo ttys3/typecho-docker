@@ -109,11 +109,9 @@ fi
 if [ "$PUSHER_APP_CLUSTER" != '' ]; then
     sed -i "s|PUSHER_APP_CLUSTER=.*|PUSHER_APP_CLUSTER=${PUSHER_APP_CLUSTER}|i" /conf/.env
 fi
-if [ "$PHP_TZ" != '' ]; then
-    sed -i "s|;*date.timezone =.*|date.timezone = ${PHP_TZ}|i" /etc/php7/php.ini
-fi
-if [ "$PHP_MAX_EXECUTION_TIME" != '' ]; then
-    sed -i "s|;*max_execution_time =.*|max_execution_time = ${PHP_MAX_EXECUTION_TIME}|i" /etc/php7/php.ini
-    sed -i "s|;*max_input_time =.*|max_input_time = ${PHP_MAX_EXECUTION_TIME}|i" /etc/php7/php.ini
-fi
 
+#for aarch64,forced to use gd
+ARCH=`uname -m`
+if [ "$ARCH" == 'aarch64' ]; then
+    sed -i "s|DISABLE_IMAGICK=.*|DISABLE_IMAGICK=true|i" /conf/.env
+fi

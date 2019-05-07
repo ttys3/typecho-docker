@@ -6,6 +6,22 @@
 procs=$(cat /proc/cpuinfo | grep processor | wc -l)
 sed -i -e "s/worker_processes 5/worker_processes $procs/" /etc/nginx/nginx.conf
 
+#php-fpm config adjust acording to machine hardware
+ARCH=`uname -m`
+CPU_NUM=`nproc --all`
+MEM_TOTAL_MB=`free -m | grep Mem | awk '{ print $2 }'`
+if [ "$ARCH" == 'aarch64' ]; then
+    sed -i "s|pm.max_children =.*|pm.max_children = ${CPU_NUM}|i" /etc/php7/php-fpm.d/www.conf
+fi
+
+if [ "$PHP_TZ" != '' ]; then
+    sed -i "s|;*date.timezone =.*|date.timezone = ${PHP_TZ}|i" /etc/php7/php.ini
+fi
+if [ "$PHP_MAX_EXECUTION_TIME" != '' ]; then
+    sed -i "s|;*max_execution_time =.*|max_execution_time = ${PHP_MAX_EXECUTION_TIME}|i" /etc/php7/php.ini
+    sed -i "s|;*max_input_time =.*|max_input_time = ${PHP_MAX_EXECUTION_TIME}|i" /etc/php7/php.ini
+fi
+
 echo "**** Make sure the /conf and /uploads folders exist ****"
 [ ! -f /conf ] && \
 	mkdir -p /conf
