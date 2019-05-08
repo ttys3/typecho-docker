@@ -1,1 +1,1 @@
-docker run -it --rm -p 90:80 --mount type=tmpfs,destination=/tmp -e APP_DEBUG=true -e PHP_MAX_EXECUTION_TIME=1800 80x86/lychee:AMD64-full-latest
+docker run -it --rm -p 90:80 --mount type=tmpfs,destination=/tmp -e APP_DEBUG=true -e PHP_MAX_EXECUTION_TIME=1800 80x86/typecho:amd64
