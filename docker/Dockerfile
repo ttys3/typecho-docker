@@ -1,17 +1,15 @@
-#thanks https://github.com/LycheeOrg/Lychee-Laravel-Docker/blob/master/Dockerfile
 #thanks https://github.com/dockage/alpine-runit/blob/master/Dockerfile
 #thanks https://github.com/faisyl/alpine-runit
 #thanks https://github.com/petronetto/php-nginx-alpine
-#install https://github.com/LycheeOrg/Lychee-Laravel/wiki/Install
 #man https://www.cyberciti.biz/faq/10-alpine-linux-apk-command-examples/
 
 FROM 80x86/base-alpine:latest
 
 LABEL maintainer='HuangYeWuDeng <***@ttys0.in>' \
-        org.label-schema.name="docker-lychee-alpine-s6" \
+        org.label-schema.name="docker-typecho-alpine-s6" \
         org.label-schema.vendor="HuangYeWuDeng" \
-        org.label-schema.description="Docker image uses s6 as a process supervision run Lychee under nginx and php-fpm on Alpine Linux" \
-        org.label-schema.vcs-url="https://bitbucket.org/8ox86/docker-lychee-alpine-s6" \
+        org.label-schema.description="Docker image uses s6 as a process supervision run typecho under nginx and php-fpm on Alpine Linux" \
+        org.label-schema.vcs-url="https://bitbucket.org/8ox86/docker-typecho-alpine-s6" \
         org.label-schema.version="1.1" \
         org.label-schema.license="MIT"
 
@@ -22,9 +20,6 @@ ENV PUID='1000' \
         PHP_TZ=Asia/Shanghai \
         PHP_MAX_EXECUTION_TIME=600 \
         PHP_FPM_MAX_CHILDREN=128 \
-        DB_CONNECTION=sqlite \
-        DB_DATABASE=/conf/lychee.db \
-        DISABLE_IMAGICK=false \
         APP_DEBUG=false
     
 # Install packages
@@ -32,7 +27,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         && apk --update add --no-cache \
         tzdata \
         nginx \
-        ffmpeg \
         curl \
 #       ncdu \
         freetype \
@@ -57,8 +51,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         php7-ctype \
         php7-session \
         php7-gd \
-        imagemagick \
-        php7-imagick \
         php7-zip \
         php7-zlib \
     && rm -rf /var/cache/apk/* \
@@ -85,7 +77,7 @@ RUN addgroup -g 1000 -S $HTTPD_USER \
     && chown -R nginx:nginx /var/lib/nginx
 
 # copy app build result to image
-COPY --chown=1000:1000 Lychee-Laravel /app/Lychee-Laravel/
+COPY --chown=1000:1000 typecho /app/
 
 # for debug COPY instruction
 # RUN ls -lhp /app/
@@ -104,10 +96,10 @@ RUN chmod +x /app-init.sh \
         && chmod +x /inject.sh
 
 # Setting the workdir
-WORKDIR /app/Lychee-Laravel
+WORKDIR /app
 
 EXPOSE 80
-VOLUME /conf /uploads
+VOLUME /data
 
 HEALTHCHECK --interval=6s --timeout=3s \
   CMD curl -INfs http://localhost/ > /dev/null || exit 1

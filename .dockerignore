@@ -5,6 +5,7 @@ docker
 !docker/inject.sh
 .dockerignore
 **/.git/
+**/.github/
 **/node_modules/
 **/tests/
 **/Tests/

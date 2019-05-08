@@ -1,12 +1,21 @@
 #!/bin/sh
 
-rm -rf Lychee-Laravel
-git clone -b nanodm --recurse-submodules https://github.com/ttys3/Lychee-Laravel.git
+rm -rf typecho
+git clone -b nanodm --recurse-submodules https://github.com/ttys3/typecho.git
 
-# curl -sS https://install.phpcomposer.com/installer | php -- --install-dir=/usr/bin --filename=composer \
-#     && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
-#     && composer config -g -l | grep repositories.packagist.org.url
- cd Lychee-Laravel
- composer install --no-dev --ignore-platform-reqs --no-interaction --prefer-dist
- #find . -type d -name Tests -o -name tests -o -name doc -o -name docs | xargs rm -rf
- cd ..
+ROOT_DIR=`pwd`
+cd typecho/usr/themes
+
+git clone https://github.com/Dreamer-Paul/Single.git single
+git clone https://github.com/spiritree/typecho-theme-amaze.git amaze
+git clone https://github.com/shiyiya/typecho-theme-sagiri.git Sagiri
+git clone https://github.com/Siphils/Typecho-Theme-Aria.git Aria
+git clone https://github.com/Seevil/fantasy.git fantasy
+
+cd $ROOT_DIR/usr/plugins
+git clone https://github.com/ayangyuan/Youtube-Typecho-Plugin Youtube
+git clone https://github.com/Dreamer-Paul/Pio.git Pio
+git clone https://github.com/Copterfly/CodeHighlighter-for-Typecho.git CodeHighlighter
+
+# find . -type d -name Tests -o -name tests -o -name doc -o -name docs | xargs rm -rf
+cd $ROOT_DIR
