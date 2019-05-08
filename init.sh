@@ -12,7 +12,7 @@ git clone https://github.com/shiyiya/typecho-theme-sagiri.git Sagiri
 git clone https://github.com/Siphils/Typecho-Theme-Aria.git Aria
 git clone https://github.com/Seevil/fantasy.git fantasy
 
-cd $ROOT_DIR/usr/plugins
+cd $ROOT_DIR/typecho/usr/plugins
 git clone https://github.com/ayangyuan/Youtube-Typecho-Plugin Youtube
 git clone https://github.com/Dreamer-Paul/Pio.git Pio
 git clone https://github.com/Copterfly/CodeHighlighter-for-Typecho.git CodeHighlighter
