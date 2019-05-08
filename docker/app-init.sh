@@ -30,22 +30,17 @@ echo "**** Make sure the /data folders exist ****"
 [ ! -f /data ] && \
 	mkdir -p /data
 
-echo "**** Create the symbolic link for the /usr folder ****"
 [ ! -L /app/usr ] && \
 	cp -ra /app/usr/* /data && \
 	rm -r /app/usr && \
-	ln -s /data /app/usr
-
-echo "**** Create the symbolic link for config.inc.php ****" && \
-#if app installed, copy config to /data
-[ ! -e /data/config.inc.php ] && \
-[ -e /app/config.inc.php ] && \
-	cp /app/config.inc.php /data/config.inc.php
+	ln -s /data /app/usr && \
+	echo "**** Create the symbolic link for the /usr folder ****"
 
 #if app installed, link /data/config.inc.php to /app/config.inc.php
 [ ! -L /app/config.inc.php ] && \
 [ -e /data/config.inc.php ] && \
-	ln -s /data/config.inc.php /app/config.inc.php
+	ln -sf /data/config.inc.php /app/config.inc.php && \
+	echo "**** Create the symbolic link for config.inc.php ****"
 
 echo "**** Set Permissions ****"
 chown -R "$HTTPD_USER":"$HTTPD_USER" /data
