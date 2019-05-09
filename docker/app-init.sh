@@ -48,6 +48,12 @@ echo "**** Make sure the /data folders exist ****"
 	ln -sf /data/config.inc.php /app/config.inc.php && \
 	echo "**** Create the symbolic link for config.inc.php ****"
 
+#fixup __TYPECHO_SITE_URL__
+if [ -e /data/config.inc.php ] && ! grep -q '__TYPECHO_SITE_URL__' /data/config.inc.php; then
+	sed -i "s|define('__TYPECHO_ROOT_DIR__', '/app');.*|define('__TYPECHO_ROOT_DIR__', '/app'); define('__TYPECHO_SITE_URL__', '/');|i" /data/config.inc.php && \
+	echo "**** fixup __TYPECHO_SITE_URL__ ****"
+fi
+
 echo "**** Set Permissions ****"
 chown -R "$HTTPD_USER":"$HTTPD_USER" /data
 chmod -R a+rw /data
