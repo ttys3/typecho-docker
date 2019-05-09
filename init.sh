@@ -7,7 +7,7 @@ ROOT_DIR=`pwd`
 cd typecho/usr/themes
 
 git clone https://github.com/Dreamer-Paul/Single.git single
-git clone https://github.com/spiritree/typecho-theme-amaze.git amaze
+git clone https://github.com/ttys3/typecho-theme-amaze.git amaze
 git clone https://github.com/shiyiya/typecho-theme-sagiri.git Sagiri
 git clone https://github.com/Siphils/Typecho-Theme-Aria.git Aria
 git clone https://github.com/Seevil/fantasy.git fantasy
