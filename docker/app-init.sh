@@ -26,7 +26,7 @@ if [ "$PHP_MAX_EXECUTION_TIME" != '' ]; then
     sed -i "s|;*max_input_time =.*|max_input_time = ${PHP_MAX_EXECUTION_TIME}|i" /etc/php7/php.ini
 fi
 if [ "$APP_DEBUG" != 'false' ]; then
-    sed -i "s|;*php_flag[display_errors] =.*|php_flag[display_errors] = on|i" /etc/php7/php-fpm.d/www.conf
+    sed -i "s|;*php_flag\[display_errors\] =.*|php_flag\[display_errors\] = on|i" /etc/php7/php-fpm.d/www.conf
 fi
 
 echo "**** Make sure the /data folders exist ****"
