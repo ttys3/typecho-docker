@@ -14,6 +14,7 @@ cd $ROOT_DIR/typecho/usr/plugins && \
 git clone https://github.com/ayangyuan/Youtube-Typecho-Plugin Youtube && \
 git clone https://github.com/Dreamer-Paul/Pio.git Pio && \
 git clone https://github.com/Copterfly/CodeHighlighter-for-Typecho.git CodeHighlighter
+git clone https://github.com/ttys3/typecho-AceThemeEditor.git AceThemeEditor
 
 # find . -type d -name Tests -o -name tests -o -name doc -o -name docs | xargs rm -rf
 cd $ROOT_DIR
