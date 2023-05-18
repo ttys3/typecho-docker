@@ -3,7 +3,7 @@
 #thanks https://github.com/petronetto/php-nginx-alpine
 #man https://www.cyberciti.biz/faq/10-alpine-linux-apk-command-examples/
 
-FROM 80x86/base-alpine:latest
+FROM docker.io/80x86/base-alpine:latest
 
 LABEL maintainer='HuangYeWuDeng <***@ttys0.in>' \
         org.label-schema.name="typecho" \
@@ -14,14 +14,14 @@ LABEL maintainer='HuangYeWuDeng <***@ttys0.in>' \
         org.label-schema.license="MIT"
 
 # Environment variables
-ENV PUID='1000' \
-        PGID='1000' \
+ENV PUID='1001' \
+        PGID='1001' \
         HTTPD_USER='www' \
         PHP_TZ=Asia/Shanghai \
         PHP_MAX_EXECUTION_TIME=600 \
         PHP_FPM_MAX_CHILDREN=128 \
         APP_DEBUG=false
-    
+
 # Install packages
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
         && apk --update add --no-cache \
@@ -71,12 +71,12 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #    && adduser -u "$PUID" -D -S -G "$USER" -h /app -g "$USER" "$USER"
 
 # create www user for php-fpm
-RUN addgroup -g 1000 -S $HTTPD_USER \
-    && adduser -u 1000 -D -S -G $HTTPD_USER -h /app -g $HTTPD_USER $HTTPD_USER \
+RUN addgroup -g 1001 -S $HTTPD_USER \
+    && adduser -u 1001 -D -S -G $HTTPD_USER -h /app -g $HTTPD_USER $HTTPD_USER \
     && chown -R nginx:nginx /var/lib/nginx
 
 # copy app build result to image
-COPY --chown=1000:1000 typecho /app/
+COPY --chown=1001:1001 typecho /app/
 
 # for debug COPY instruction
 # RUN ls -lhp /app/
