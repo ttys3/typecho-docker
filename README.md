@@ -6,6 +6,10 @@ use [s6](https://skarnet.org/software/s6/why.html) as supervision instead of run
 
 with slightly modified code which is suitable best for containers: https://github.com/ttys3/typecho/commits/docker
 
+update: typecho code has been updated to [v1.2.1-rc.2](https://github.com/typecho/typecho/releases/tag/v1.2.1-rc.2)
+
+latest image: ` docker.io/80x86/typecho:v1.2.1-rc.2-amd64`
+
 
 typecho is a PHP based lightweight blog system
 
