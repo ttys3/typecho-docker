@@ -1,10 +1,11 @@
-#  typecho blog system docker for amd64/arm64 machine
+#  typecho docker image for amd64/arm64 machine
 
 ## both MySQL and SQLite are supported
 
-###  Mod by HuangYeWuDeng(荒野無燈@nanodm.net) for docker
-
 use [s6](https://skarnet.org/software/s6/why.html) as supervision instead of runit
+
+with slightly modified code which is suitable best for containers: https://github.com/ttys3/typecho/commits/docker
+
 
 typecho is a PHP based lightweight blog system
 
@@ -24,7 +25,7 @@ you need to map container path `/data` to your host machine for persistent data 
 AMD64 or  arm64:
 ```shell
 docker run -d \
---name=typecho-blog \
+--name=typecho \
 --restart always \
 --mount type=tmpfs,destination=/tmp \
 -v /srv/http/typecho:/data \
