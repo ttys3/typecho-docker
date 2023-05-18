@@ -6,10 +6,10 @@
 FROM 80x86/base-alpine:latest
 
 LABEL maintainer='HuangYeWuDeng <***@ttys0.in>' \
-        org.label-schema.name="docker-typecho-alpine-s6" \
+        org.label-schema.name="typecho" \
         org.label-schema.vendor="HuangYeWuDeng" \
         org.label-schema.description="Docker image uses s6 as a process supervision run typecho under nginx and php-fpm on Alpine Linux" \
-        org.label-schema.vcs-url="https://bitbucket.org/8ox86/docker-typecho-alpine-s6" \
+        org.label-schema.vcs-url="https://github.com/ttys3/typecho-docker" \
         org.label-schema.version="1.4" \
         org.label-schema.license="MIT"
 
