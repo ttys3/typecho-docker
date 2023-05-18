@@ -40,6 +40,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         libpng \
         libjpeg-turbo \
         php7 \
+        php7-dom \
         php7-fpm \
         php7-mbstring \
         php7-mcrypt \
