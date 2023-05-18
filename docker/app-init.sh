@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. /etc/envvars
-
 ARCH=`uname -m`
 CPU_NUM=`nproc --all`
 MEM_TOTAL_MB=`free -m | grep Mem | awk '{ print $2 }'`
